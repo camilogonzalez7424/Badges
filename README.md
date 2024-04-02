@@ -1,34 +1,47 @@
 # <b> _**Ecommerce**_ </b>
 
-    "InnovaRetail Corp." busca ofrecer una experiencia de usuario excepcional y simplificar la gestión interna mediante una plataforma de comercio electrónico que integra una tienda en línea y un sistema de administración avanzado (CMS). Esta solución facilitará el control de múltiples vendedores o tiendas, gestionará productos, categorías, imágenes, filtros y publicidad de manera eficiente. El proyecto se basa en prácticas DevOps, con automatización de infraestructura y procesos, estrategias de branching efectivas, seguridad en la gestión de secretos y una arquitectura robusta de microservicios.
+    "InnovaRetail Corp." busca ofrecer una experiencia de usuario excepcional y simplificar 
+    la gestión interna mediante una plataforma de comercio electrónico que integra una 
+    tienda en línea y un sistema de administración avanzado (CMS). Esta solución facilitará 
+    el control de múltiples vendedores o tiendas, gestionará productos, categorías, imágenes, 
+    filtros y publicidad de manera eficiente. El proyecto se basa en prácticas DevOps, 
+    con automatización de infraestructura y procesos, estrategias de branching efectivas, 
+    seguridad en la gestión de secretos y una arquitectura robusta de microservicios.
    
 
 ## <b> _Documentación_ </b> 📄
 
 - **!Here Link!: [Diagrama](https://drive.google.com/file/d/1cXTemTJHsVnEOia_B0CTaPzBDNIW4PyG/view?usp=sharing)**
 
+- **!Here Link!: [Informe](https://docs.google.com/document/d/1kUrUci1jmYjUvVWau-KCpyo4l4Ss4eGaMHVj4EyOuJs/edit?usp=sharing)**
+
+- **!Here Link!: [Investigación](https://docs.google.com/document/d/1aaH835T2fMgqeo_P8yBqtOZiTH8YpHVKhM6h1ZJ_KLU/edit?usp=sharing)**
+
+- **!Here Link!: [Acta](https://docs.google.com/document/d/19GDCuFgKVXy5wjTXVUjY0ZuXMquSjLSR26RotD2Q_70/edit?usp=sharing)**
 
 
 
-## <b> _Built with_ </b> 🛠️
 
+## <b> _Contruido con_ </b> 🛠️
 
-+ [JavaScript](https://www.javascript.com/) - Programming language used.
-+ [Azure](https://azure.microsoft.com/es-es/) - Cloud computing services platform used for the web.
++ [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Lenguaje de programación.
++ [Node js](https://nodejs.org/en) - Entorno en tiempo de ejecución multiplataforma,
++ [Azure](https://azure.microsoft.com/es-es/) - Plataforma de servicios en la nube.
++ [Docker](https://www.docker.com/) -  despliegue de aplicaciones dentro de contenedores de software.
 
 
 ## <b> _Made by_ </b>
-<b> 😊😊 _**Trianix's sons:**_ 😊😊 </b>
+<b> 😊😊 _**Ing. DevOps:**_ 😊😊 </b>
 
 + [Camilo González Velasco](https://github.com/camilogonzalez7424 "Camilo G.")
 + [Sebastián Navia Ramírez ](https://github.com/Sebastianavia "Sebastián N.")
-+ [Juan Jose Osorio ](https://github.com/ "Juan O.")
++ [Amilcar Rogriguez ](https://github.com/Amilcar-Steban "Amilcar R.")
 
 
 
 <br>
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/uses-html.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-next-13.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/docker-container.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
