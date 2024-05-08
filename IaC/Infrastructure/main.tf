@@ -13,7 +13,8 @@ module "resource_group"{
 module "networks" {
   source = "./modules/networks"  # Asegúrate de que esta ruta apunta a tu módulo
 
-  vnet_name = "ecommerce-vnet"
+  vnet_name_api_gtw = "api-gtw-vnet"
+  vnet_name_cluster = "cluster-vnet"
   resource_group_name = module.resource_group.name
   location = "East US"
   vnet_address_space = ["10.0.0.0/16"]

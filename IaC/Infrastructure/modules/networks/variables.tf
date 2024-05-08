@@ -1,5 +1,10 @@
 # modules/subnets/variables.tf
-variable "vnet_name" {
+variable "vnet_name_cluster" {
+  description = "The name of the virtual network"
+  type        = string
+}
+
+variable "vnet_name_api_gtw" {
   description = "The name of the virtual network"
   type        = string
 }
