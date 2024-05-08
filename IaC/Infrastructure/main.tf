@@ -4,53 +4,23 @@ provider "azurerm" {
 }
 
 # Define el grupo de recursos
-resource "azurerm_resource_group" "Commerce" {
-  name     = "Commerce-resources"
+module "resource_group"{
+  source = "./modules/resource_group"
+  name     = "ecommerce-resources"
   location = "East US"
 }
 
-# Define la red virtual
-resource "azurerm_virtual_network" "Commerce" {
-  name                = "Commerce-network"
-  address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.Commerce.location
-  resource_group_name = azurerm_resource_group.Commerce.name
-}
+module "networks" {
+  source = "./modules/networks"  # Asegúrate de que esta ruta apunta a tu módulo
 
-# Define la subred dentro de la red virtual
-resource "azurerm_subnet" "Commerce" {
-  name                 = "Commerce-subnet"
-  resource_group_name  = azurerm_resource_group.Commerce.name
-  virtual_network_name = azurerm_virtual_network.Commerce.name
-  address_prefixes     = ["10.0.1.0/24"]
-}
+  vnet_name = "ecommerce-vnet"
+  resource_group_name = module.resource_group.name
+  location = "East US"
+  vnet_address_space = ["10.0.0.0/16"]
 
-resource "azurerm_api_management" "Commerce" {
-  name                = "Commerce-apim"
-  location            = azurerm_resource_group.Commerce.location
-  resource_group_name = azurerm_resource_group.Commerce.name
-  publisher_name      = "InnovaRetail Corp"
-  publisher_email     = "Gonzalezcamilo508@gmail.com"
+  api_gtw_subnet_name = "api_gtw_subnet"
+  api_gateway_subnet_prefix = "10.0.1.0/24"
 
-  sku_name = "Developer_1"
-}
-
-# Define el clúster de Kubernetes
-
-resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
-  name                = "Commerce-cluster"
-  location            = azurerm_resource_group.Commerce.location
-  resource_group_name = azurerm_resource_group.Commerce.name
-  dns_prefix          = "Commerce-cluster"
-  kubernetes_version  = "1.20.9"
-
-  default_node_pool {
-    name       = "default"
-    node_count = 3
-    vm_size    = "Standard_DS2_v2"
-  }
-
-  identity {
-    type = "SystemAssigned"
-  }
+  cluster_subnet_name = "cluster_subnet"
+  cluster_subnet_prefix = "10.0.2.0/24"
 }
