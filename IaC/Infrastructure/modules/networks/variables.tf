@@ -19,7 +19,12 @@ variable "location" {
   type        = string
 }
 
-variable "vnet_address_space" {
+variable "vnet_address_space_api_gtw" {
+  description = "The address space of the virtual network"
+  type        = list(string)
+}
+
+variable "vnet_address_space_cluster" {
   description = "The address space of the virtual network"
   type        = list(string)
 }

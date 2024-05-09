@@ -3,14 +3,14 @@ resource "azurerm_virtual_network" "vnet_api_gtw" {
   name                = var.vnet_name_api_gtw
   resource_group_name = var.resource_group_name
   location            = var.location
-  address_space       = var.vnet_address_space
+  address_space       = var.vnet_address_space_api_gtw
 }
 
 resource "azurerm_virtual_network" "vnet_cluster" {
   name                = var.vnet_name_cluster
   resource_group_name = var.resource_group_name
   location            = var.location
-  address_space       = var.vnet_address_space
+  address_space       = var.vnet_address_space_cluster
 }
 
 resource "azurerm_subnet" "api_gateway_subnet" {
