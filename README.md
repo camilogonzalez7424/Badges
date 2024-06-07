@@ -19,7 +19,12 @@
 
 - **!Here Link!: [Acta](https://docs.google.com/document/d/19GDCuFgKVXy5wjTXVUjY0ZuXMquSjLSR26RotD2Q_70/edit?usp=sharing)**
 
+## <b> _Repositorios_ </b>
 
+- **[IaC](https://github.com/camilogonzalez7424/ecommerce-IaC)**
+- **[AdminCI](https://github.com/Sebastianavia/ecommerce-AdminCI.git)**
+- **[StoreCI](https://github.com/Sebastianavia/ecommerce-StoreCI.git)**
+- **[EcommerceCD](https://github.com/camilogonzalez7424/ecommerce-CD)**
 
 
 ## <b> _Contruido con_ </b> 🛠️
@@ -28,6 +33,9 @@
 + [Node js](https://nodejs.org/en) - Entorno en tiempo de ejecución multiplataforma,
 + [Azure](https://azure.microsoft.com/es-es/) - Plataforma de servicios en la nube.
 + [Docker](https://www.docker.com/) -  despliegue de aplicaciones dentro de contenedores de software.
++ [terraform](https://www.terraform.io/) - Usado para crear la IaC
++ [Github Actions](https://docs.github.com/es/actions) - Usado para el CI
++ [ArgosCD](https://argo-cd.readthedocs.io/en/stable/) - Usado para el CD
 
 
 ## <b> _Made by_ </b>
