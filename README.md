@@ -15,6 +15,8 @@
 
 - **!Here Link!: [Informe](https://docs.google.com/document/d/1kUrUci1jmYjUvVWau-KCpyo4l4Ss4eGaMHVj4EyOuJs/edit?usp=sharing)**
 
+- **!Here Link!: [Informe DevOps](https://docs.google.com/document/d/1TvoquaHXB77DhI2YesWTMgZQb98r9gIkISDE156ib34/edit?usp=sharing)**
+
 - **!Here Link!: [Investigación](https://docs.google.com/document/d/1aaH835T2fMgqeo_P8yBqtOZiTH8YpHVKhM6h1ZJ_KLU/edit?usp=sharing)**
 
 - **!Here Link!: [Acta](https://docs.google.com/document/d/19GDCuFgKVXy5wjTXVUjY0ZuXMquSjLSR26RotD2Q_70/edit?usp=sharing)**
