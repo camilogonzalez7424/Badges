@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: myingress
-  namespace: e-commerce-admin
+  namespace: e-commerce
   annotations:
     kubernetes.io/ingress.class: azure/application-gateway
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
