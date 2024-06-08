@@ -28,5 +28,3 @@ for NAMESPACE in "databases" "e-commerce-admin" "e-commerce-store"; do
     --docker-email=$DOCKER_EMAIL \
     -n $NAMESPACE
 done
-
-bash /argo/argo/applications/script.sh
