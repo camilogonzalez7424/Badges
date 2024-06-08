@@ -4,53 +4,140 @@ provider "azurerm" {
 }
 
 # Define el grupo de recursos
-resource "azurerm_resource_group" "Commerce" {
-  name     = "Commerce-resources"
+module "resource_group"{
+  source = "./modules/resource_group"
+  name     = "ecommerce-resources"
   location = "East US"
 }
 
-# Define la red virtual
-resource "azurerm_virtual_network" "Commerce" {
-  name                = "Commerce-network"
-  address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.Commerce.location
-  resource_group_name = azurerm_resource_group.Commerce.name
+module "bastion" {
+  source = "./modules/bastion"
+  bastion_name        = "bastion_admin_ecommerce"
+  location            = module.resource_group.location
+  resource_group_name = module.resource_group.name
+  subnet_id           = module.networks.bastion_subnet_id
 }
 
-# Define la subred dentro de la red virtual
-resource "azurerm_subnet" "Commerce" {
-  name                 = "Commerce-subnet"
-  resource_group_name  = azurerm_resource_group.Commerce.name
-  virtual_network_name = azurerm_virtual_network.Commerce.name
-  address_prefixes     = ["10.0.1.0/24"]
+module "cluster" {
+  source = "./modules/cluster"
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
+  cluster_name        = "myK8sCluster"
+  dns_prefix          = "mydns"
+  node_pool_name      = "default"
+  node_count          = 1
+  vm_size             = "Standard_D2_v2"
+  vnet_subnet_id      = module.networks.kubernetes_cluster_subnet_id
+  secret_rotation_enabled = true
+
 }
 
-resource "azurerm_api_management" "Commerce" {
-  name                = "Commerce-apim"
-  location            = azurerm_resource_group.Commerce.location
-  resource_group_name = azurerm_resource_group.Commerce.name
-  publisher_name      = "InnovaRetail Corp"
-  publisher_email     = "Gonzalezcamilo508@gmail.com"
 
-  sku_name = "Developer_1"
+module "networks" {
+  source = "./modules/networks"  # Asegúrate de que esta ruta apunta a tu módulo
+  vnet_name_api_gtw = "api-gtw-vnet"
+  vnet_name_cluster = "cluster-vnet"
+  resource_group_name = module.resource_group.name
+  location = module.resource_group.location
+  vnet_address_space_api_gtw = ["10.1.0.0/16"]
+  vnet_address_space_cluster = ["10.2.0.0/16"]
+
+  allocation_method                   = "Static"
+  sku                                 = "Standard"
+  public_ip_name                      = "gatewayTestIpPublic"
+
+  api_gtw_subnet_name = "api_gtw_subnet"
+  api_gateway_subnet_prefix = "10.1.1.0/24"
+  nameApiToCluster = "peering-api-gtw-to-cluster"
+  allow_virtual_network_access = true
+
+  cluster_subnet_name = "cluster_subnet"
+  cluster_subnet_prefix = "10.2.1.0/24"
+  nameClusterToApiGtw = "peering-cluster-to-api-gtw"
+  bastion_subnet_prefix = "10.2.2.0/24"
 }
 
-# Define el clúster de Kubernetes
+module "security" {
+  source                    = "./modules/security"
+  nsg_name                  = "aks_nsg"
+  location                  = module.resource_group.location
+  resource_group_name       = module.resource_group.name
+  kubernetes_cluster_subnet_id = module.networks.kubernetes_cluster_subnet_id
+  bastion_subnet_prefix     = module.networks.bastion_subnet_prefix
+}
 
-resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
-  name                = "Commerce-cluster"
-  location            = azurerm_resource_group.Commerce.location
-  resource_group_name = azurerm_resource_group.Commerce.name
-  dns_prefix          = "Commerce-cluster"
-  kubernetes_version  = "1.20.9"
+module "container_registry" {
+  source                  = "./modules/registry"
+  container_name          = "containerRegistryUnique"
+  resource_group_name     = module.resource_group.name
+  resource_group_location = module.resource_group.location
+  container_sku           = "Standard"
+}
 
-  default_node_pool {
-    name       = "default"
-    node_count = 3
-    vm_size    = "Standard_DS2_v2"
-  }
+module "apigtw" {
+  source                                          = "./modules/apigtw"
+  resource_group_name                             = module.resource_group.name
+  location                                        = module.resource_group.location
+  api_gateway_name                                = "apiGatewayUnique"
+  subnet_id                                       = module.networks.api_gateway_subnet_id
+  sku_name                                        = "Standard_v2"
+  sku_tier                                        = "Standard_v2"
+  sku_capacity                                    = 2
+  gateway_ip_configuration_name                   = "appGatewayIpConfig"
+  frontend_ip_configuration_name                  = "frontendConfig"
+  public_ip_address_id                            = module.networks.public_ip_id
+  frontend_port_name                              = "frontendPort"
+  frontend_port_port                              = 80
+  backend_address_pool_name                       = "backendPool"
+  backend_http_settings_name                      = "backendHttpSettings"
+  cookie_based_affinity                           = "Disabled"
+  backend_http_settings_port                      = 80
+  backend_http_settings_protocol                  = "Http"
+  backend_http_settings_request_timeout           = 120
+  http_listener_name                              = "httpListener"
+  http_listener_frontend_ip_configuration_name    = "frontendConfig"
+  http_listener_frontend_port_name                = "frontendPort"
+  http_listener_protocol                          = "Http"
+  request_routing_rule_name                       = "routingRule"
+  request_routing_rule_rule_type                  = "Basic"
+  request_routing_rule_priority                   = 9
+  request_routing_rule_http_listener_name         = "httpListener"
+  request_routing_rule_backend_address_pool_name  = "backendPool"
+  request_routing_rule_backend_http_settings_name = "backendHttpSettings"
+}
 
-  identity {
-    type = "SystemAssigned"
-  }
+data "azurerm_client_config" "current" {}
+
+module "key_vault" {
+  source                              = "./modules/key_vault"
+  key_vault_name                      = "myKeyVault-10888"
+  resource_group_name                 = module.resource_group.name
+  location                            = module.resource_group.location
+  tenant_id                           = data.azurerm_client_config.current.tenant_id
+  enabled_for_disk_encryption         = true
+  purge_protection_enabled            = false
+  soft_delete_retention_days          = 7
+  sku_name                            = "standard"
+  object_id                           = coalesce(null, data.azurerm_client_config.current.object_id)
+  key_permissions                     = ["Get", "Create", "List", "Delete", "Purge", "Recover", "SetRotationPolicy", "GetRotationPolicy"]
+  secret_permissions                  = ["Get", "Set", "List", "Delete", "Purge", "Recover"]
+  certificate_permissions             = ["Get"]
+  secret_names                        = ["Secret1", "Secret2", "webserver-config", "webserver-properties"]
+  secret_values                       = ["szechuan", "shashlik", "config-value", "properties-value"]
+  key_names                           = ["Key1", "Key2"]
+  key_types                           = ["RSA", "RSA"]
+  key_sizes                           = [2048, 2048]
+  key_opts                            = ["decrypt", "encrypt", "sign", "unwrapKey", "verify", "wrapKey"]
+  time_before_expiry                  = "P30D"
+  expire_after                        = "P90D"
+  notify_before_expiry                = "P29D"
+  user_assigned_identity_principal_id = module.me.principal_id
+  aks_secret_provider_id              = module.cluster.secret_provider
+}
+
+module "me" {
+  source              = "./modules/me"
+  name                = "myUserIdentity"
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
 }

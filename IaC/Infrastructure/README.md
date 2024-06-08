@@ -1,9 +1,40 @@
-In this project, we are embarking on the creation of a robust infrastructure within the Microsoft Azure cloud environment, utilizing the capabilities of Terraform. Terraform serves as our guiding tool, enabling the provisioning and management of Azure resources through infrastructure as code (IaC) principles.
-
-Our primary objective is to establish a comprehensive infrastructure setup, covering critical aspects of our Azure environment. Through Terraform, we will systematically create each component, ensuring consistency, reliability, and scalability throughout the process.
-
-From the foundational resource group to the intricate configurations of virtual networks and subnets, every element of our Azure infrastructure will be meticulously crafted. Additionally, the deployment of essential services such as API Management and Kubernetes clusters will further enhance the functionality and versatility of our environment.
-
-By harnessing the power of Terraform, we aim to streamline the infrastructure provisioning process, minimize manual intervention, and lay a solid groundwork for future growth and optimization within our Azure ecosystem."
+## comandos
 
 
+usar cluster de forma local
+```sh
+az aks get-credentials --resource-group <resource-group-name> --name <cluster-name>
+```
+
+```sh
+  # module.apigtw.azurerm_api_management.api will be created
+  + resource "azurerm_api_management" "api" {
+      + client_certificate_enabled    = false
+      + developer_portal_url          = (known after apply)
+      + gateway_disabled              = false
+      + gateway_regional_url          = (known after apply)
+      + gateway_url                   = (known after apply)
+      + id                            = (known after apply)
+      + location                      = "eastus"
+      + management_api_url            = (known after apply)
+      + name                          = "apiGtw"
+      + notification_sender_email     = (known after apply)
+      + policy                        = (known after apply)
+      + portal_url                    = (known after apply)
+      + private_ip_addresses          = (known after apply)
+      + public_ip_addresses           = (known after apply)
+      + public_network_access_enabled = true
+      + publisher_email               = "company@example.com"
+      + publisher_name                = "My Company"
+      + resource_group_name           = "ecommerce-resources"
+      + scm_url                       = (known after apply)
+      + sku_name                      = "Consumption_0"
+      + virtual_network_type          = "None"
+
+      + identity {
+          + principal_id = (known after apply)
+          + tenant_id    = (known after apply)
+          + type         = "SystemAssigned"
+        }
+    }
+```
